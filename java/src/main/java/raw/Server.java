@@ -7,6 +7,7 @@ import io.rsocket.Payload;
 import io.rsocket.RSocketFactory;
 import io.rsocket.transport.netty.server.WebsocketServerTransport;
 import io.rsocket.util.DefaultPayload;
+import org.reactivestreams.Publisher;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -14,6 +15,7 @@ import reactor.core.publisher.Mono;
 public final class Server {
 
     private static Logger log = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+
     static {
         log.setLevel(Level.INFO);
     }
@@ -60,6 +62,23 @@ public final class Server {
                             .map(responseText -> new Message(responseText))
                             .map(responseMessage -> MessageMapper.messageToJson(responseMessage)))
                     .map(message -> DefaultPayload.create(message));
+        }
+
+        @Override
+        public Flux<Payload> requestChannel(Publisher<Payload> payloads) {
+            log.info("got requestChannel in Server");
+            return Flux.from(payloads)
+                    .map(payload -> payload.getDataUtf8())
+                    .map(payloadString -> {
+                        log.info(payloadString);
+                        return MessageMapper.jsonToMessage(payloadString);
+                    })
+                    .flatMap(msg -> Flux.range(0, 2)
+                            .map(count -> msg.message + " | requestChannel from Server #" + count)
+                            .map(responseText -> new Message(responseText))
+                            .map(responseMessage -> MessageMapper.messageToJson(responseMessage)))
+                    .map(message -> DefaultPayload.create(message));
+
         }
     }
 

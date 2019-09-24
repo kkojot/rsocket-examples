@@ -2,6 +2,7 @@ package raw;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
+import io.rsocket.Payload;
 import io.rsocket.RSocket;
 import io.rsocket.RSocketFactory;
 import io.rsocket.transport.netty.client.WebsocketClientTransport;
@@ -12,6 +13,7 @@ import reactor.core.publisher.Flux;
 public class Client {
 
     private static Logger log = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+
     static {
         log.setLevel(Level.INFO);
     }
@@ -22,6 +24,7 @@ public class Client {
         client.fireAndForget(rSocket);
         client.requestResponse(rSocket);
         client.requestStream(rSocket);
+        client.requestChannel(rSocket);
     }
 
     private RSocket connect() {
@@ -60,6 +63,23 @@ public class Client {
                 .map(msg -> MessageMapper.messageToJson(msg))
                 .map(json -> DefaultPayload.create(json))
                 .flatMap(message -> rSocket.requestStream(message))
+                .map(payload -> payload.getDataUtf8())
+                .doOnNext(payloadString -> log.info(payloadString))
+                .blockLast();
+    }
+
+    private void requestChannel(RSocket rSocket) {
+        log.info("sending request-channel from client");
+        final Flux<Payload> requestPayload = Flux.range(0, 5)
+                .map(count -> new Message("requestChannel from JAVA client! #" + count))
+                .map(msg -> {
+                    log.info("sending message: {}", msg.message);
+                    return MessageMapper.messageToJson(msg);
+                })
+                .map(json -> DefaultPayload.create(json));
+
+        rSocket
+                .requestChannel(requestPayload)
                 .map(payload -> payload.getDataUtf8())
                 .doOnNext(payloadString -> log.info(payloadString))
                 .blockLast();
