@@ -38,7 +38,6 @@ export default {
         // Nothing happens until `request(n)` is called
         onSubscribe: sub => {
           sub.request(5);
-          sub.cancel();
         }
       });
     }
