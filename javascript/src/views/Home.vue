@@ -10,6 +10,7 @@
       <hr />
       <RequestStream :socket="socket" />
       <hr />
+      <FlowableTest />
     </div>
   </div>
 </template>
@@ -21,10 +22,11 @@ import RSocketWebSocketClient from "rsocket-websocket-client";
 import FireAndForget from "@/components/FireAndForget.vue";
 import RequestResponse from "@/components/RequestResponse.vue";
 import RequestStream from "@/components/RequestStream.vue";
+import FlowableTest from "@/components/FlowableTest.vue";
 
 export default {
   name: "home",
-  components: { FireAndForget, RequestResponse, RequestStream },
+  components: { FireAndForget, RequestResponse, RequestStream, FlowableTest },
   data() {
     return {
       socket: null
