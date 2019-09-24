@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="fireAndForget">Fire and forget</button>
+    <button @click="callServerMethod">Fire and forget</button>
     <SentReceivedViewer
       :sent="sent"
       :received="received"
@@ -27,7 +27,7 @@ export default {
     };
   },
   methods: {
-    fireAndForget() {
+    callServerMethod() {
       console.log("click fire and forget!");
       //   this.sent = [];
       //   this.received = [];

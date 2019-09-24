@@ -13,7 +13,9 @@
         <td>
           <FireAndForget :socket="socket" />
         </td>
-        <td></td>
+        <td>
+          <RequestResponse :socket="socket" />
+        </td>
         <td></td>
         <td></td>
       </tr>
@@ -26,10 +28,11 @@ import { RSocketClient, JsonSerializers } from "rsocket-core";
 import RSocketWebSocketClient from "rsocket-websocket-client";
 // @ is an alias to /src
 import FireAndForget from "@/components/FireAndForget.vue";
+import RequestResponse from "@/components/RequestResponse.vue";
 
 export default {
   name: "home",
-  components: { FireAndForget },
+  components: { FireAndForget, RequestResponse },
   data() {
     return {
       socket: null
