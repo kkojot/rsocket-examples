@@ -2,24 +2,15 @@
   <div class="home">
     <p>Welcome in the RSocket JavaScript tester</p>
     <p>RSocket is connected: {{ isConnected }}</p>
-    <table>
-      <tr>
-        <th>fireAndForget</th>
-        <th>requestResponse</th>
-        <th>requestStream</th>
-        <th>Flowable Test</th>
-      </tr>
-      <tr>
-        <td>
-          <FireAndForget :socket="socket" />
-        </td>
-        <td>
-          <RequestResponse :socket="socket" />
-        </td>
-        <td></td>
-        <td></td>
-      </tr>
-    </table>
+
+    <div class="responses">
+      <FireAndForget :socket="socket" />
+      <hr />
+      <RequestResponse :socket="socket" />
+      <hr />
+      <RequestStream :socket="socket" />
+      <hr />
+    </div>
   </div>
 </template>
 
@@ -29,10 +20,11 @@ import RSocketWebSocketClient from "rsocket-websocket-client";
 // @ is an alias to /src
 import FireAndForget from "@/components/FireAndForget.vue";
 import RequestResponse from "@/components/RequestResponse.vue";
+import RequestStream from "@/components/RequestStream.vue";
 
 export default {
   name: "home",
-  components: { FireAndForget, RequestResponse },
+  components: { FireAndForget, RequestResponse, RequestStream },
   data() {
     return {
       socket: null
@@ -85,10 +77,8 @@ export default {
 </script>
 
 <style scoped>
-table {
+div.responses {
+  width: 700px;
   margin: auto;
-}
-td {
-  text-align: left;
 }
 </style>
