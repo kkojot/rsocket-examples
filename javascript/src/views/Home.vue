@@ -11,7 +11,7 @@
       </tr>
       <tr>
         <td>
-          <FireAndForget />
+          <FireAndForget :socket="socket" />
         </td>
         <td></td>
         <td></td>

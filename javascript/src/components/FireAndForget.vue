@@ -1,7 +1,7 @@
 <template>
   <div>
     <button @click="fireAndForget">Fire and forget</button>
-    <RequestResponseViewer
+    <SentReceivedViewer
       :sent="sent"
       :received="received"
     />
@@ -9,10 +9,16 @@
 </template>
 
 <script>
-import RequestResponseViewer from "@/components/RequestResponseViewer.vue";
+import SentReceivedViewer from "@/components/SentReceivedViewer.vue";
 export default {
+  props: {
+    socket: {
+      type: Object,
+      default: null
+    }
+  },
   components: {
-    RequestResponseViewer
+    SentReceivedViewer
   },
   data() {
     return {
@@ -23,10 +29,18 @@ export default {
   methods: {
     fireAndForget() {
       console.log("click fire and forget!");
-      this.sent = [];
-      this.received = [];
-      this.sent.push("poszlo");
-      this.received.push("doszlo");
+      //   this.sent = [];
+      //   this.received = [];
+      if (this.socket) {
+        const message = { message: "fire and forgot from JavaScript!" };
+        this.socket.fireAndForget({
+          data: message,
+          metadata: ""
+        });
+        this.sent.push(message);
+      } else {
+        console.log("not connected...");
+      }
     }
   }
 };

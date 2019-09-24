@@ -3,15 +3,15 @@
     <p><strong>Sent:</strong></p>
     <ul>
       <li
-        v-for="msg in sent"
-        :key="msg"
+        v-for="(msg, index) in sent"
+        :key="index"
       > {{ msg }}</li>
     </ul>
     <p><strong>Received:</strong></p>
     <ul>
       <li
-        v-for="msg in received"
-        :key="msg"
+        v-for="(msg, index) in received"
+        :key="index"
       > {{ msg }}</li>
     </ul>
   </div>
