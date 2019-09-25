@@ -32,7 +32,7 @@ export default {
       //   this.sent = [];
       //   this.received = [];
       if (this.socket) {
-        const message = { message: "fire and forgot from JavaScript!" };
+        const message = { message: "fire and forget from JavaScript!" };
         this.socket.fireAndForget({
           data: message,
           metadata: ""

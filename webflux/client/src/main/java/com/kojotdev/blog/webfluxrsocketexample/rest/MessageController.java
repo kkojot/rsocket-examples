@@ -3,7 +3,6 @@ package com.kojotdev.blog.webfluxrsocketexample.rest;
 import com.kojotdev.blog.webfluxrsocketexample.domain.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.messaging.rsocket.RSocketRequester;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
